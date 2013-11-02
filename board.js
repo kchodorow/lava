@@ -10,11 +10,10 @@ lava.kLava = 1;
 lava.kGrassFill = '#0f0';
 lava.kLavaFill = '#f00';
 
-lava.Square = function(row, col, board) {
+lava.Square = function(row, col) {
     this.type_ = lava.kGrass; 
     this.row = row;
     this.col = col;
-    this.board_ = board;
 };
 
 lava.Square.onTouch = function(e) {
@@ -23,7 +22,8 @@ lava.Square.onTouch = function(e) {
     }
 
     this.setFill(lava.kLavaFill);
-    this.square_.getBoard().onTouch(this);
+    // Propegate
+    lava.Board.onTouch.call(this.getParent(), this.square_);
 };
 
 lava.Square.prototype.setType = function(type) {
@@ -40,15 +40,12 @@ lava.Square.prototype.getFill = function() {
     return lime.fill.Color(255, 255, 255);
 };
 
-lava.Square.prototype.getBoard = function() {
-    return this.board_;
-};
-
 // Creates the sprite, attaches an event handler and this to it, and returns it.
 lava.Square.prototype.getSprite = function() {
     var sprite = new lime.Sprite().setSize(lava.kLen, lava.kLen)
         .setPosition(lava.kLen*this.col, lava.kLen*this.row)
-        .setFill(this.getFill());
+        .setFill(this.getFill())
+        .setAnchorPoint(0, 0);
     goog.events.listen(sprite, 
                        [goog.events.EventType.MOUSEDOWN, 
                         goog.events.EventType.TOUCHSTART],
@@ -64,7 +61,7 @@ lava.Board = function() {
         str = row + '';
         this.board[str] = {};
         for (var col = 0; col < 3; col++) {
-            this.board[str][col+''] = new lava.Square(row, col, this);
+            this.board[str][col+''] = new lava.Square(row, col);
         }
     }
     this.board['1']['1'].setType(lava.kLava);
@@ -79,25 +76,26 @@ lava.Board.prototype.getLayer = function() {
         }
     }
     layer.setPosition(512, 380);
-    this.layer_ = layer;
+    layer.board_ = this;
     return layer;
 };
 
-lava.Board.prototype.onTouch = function(sprite) {
-    var square = sprite.square_;
+lava.Board.onTouch = function(square) {
     var row = square.row;
     var col = square.col;
+    var board = this.board_.board;
+    var square = board[row+''][col+''];
     for (var r = row-1; r <= row+1; r++) {
         var rStr = r+'';
-        if (!(rStr in this.board)) {
-            this.board[rStr] = {};
+        if (!(rStr in board)) {
+            board[rStr] = {};
         }
         for (var c = col-1; c <= col+1; c++) {
             var cStr = c+'';
-            if (!(cStr in this.board[rStr])) {
-                var newSquare = new lava.Square(r, c, this);
-                this.board[rStr][cStr] = newSquare;
-                this.layer_.appendChild(newSquare.getSprite());
+            if (!(cStr in board[rStr])) {
+                var newSquare = new lava.Square(r, c);
+                board[rStr][cStr] = newSquare;
+                this.appendChild(newSquare.getSprite());
             }
         }
     }
