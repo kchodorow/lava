@@ -40,6 +40,7 @@ lava.Square.onTouch = function(e) {
         return;
     }
 
+    lava.registerTurn();
     this.setType(lava.kLava);
     lava.Audio.burnGrass();
     // Propegate

@@ -1,6 +1,5 @@
 Programming:
 * Add game over condition - all grey
-* Create HUD
 * Create "fog" over unseen area
 * Allow scrolling
 * Don't let villagers move to squares with other villagers
@@ -11,8 +10,3 @@ Art:
 * Create grass
 * Create rock
 * Choose font
-
-Sounds:
-* Create burning sound effect
-* Create cooling sound effect
-* Create villager dying sound effect
