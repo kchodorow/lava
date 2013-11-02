@@ -39,11 +39,6 @@ lava.Square.onTouch = function(e) {
         return;
     }
 
-    // Kill villager
-    if (this.getNumberOfChildren() == 1) {
-        this.getChildAt(0).kill();
-    }
-
     this.setType(lava.kLava);
     // Propegate
     lava.Board.onTouch.call(this.getParent(), this);
@@ -99,7 +94,7 @@ lava.Board = function() {
         }
     }
     this.board['1']['1'].setType(lava.kLava);
-    this.villagers = new lava.Villagers();
+    this.villagers = new lava.Villagers(this);
     // TODO: center
     this.setPosition(512, 380);
 };
@@ -120,8 +115,8 @@ lava.Board.onTouch = function(square) {
     var col = square.col;
     var board = this.board;
 
-    var villagers = this.villagers;
-    villagers.dowse(this);
+    this.villagers.kill();
+    this.villagers.dowse();
 
     // Add new square to the board
     for (var r = row-1; r <= row+1; r++) {
@@ -136,7 +131,7 @@ lava.Board.onTouch = function(square) {
                 board[rStr][cStr] = newSquare;
                 this.appendChild(newSquare);
                 if (random(2) == 0) {
-                    this.appendChild(villagers.add(r, c));
+                    this.appendChild(this.villagers.add(r, c));
                 }
             }
         }

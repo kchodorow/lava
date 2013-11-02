@@ -1,6 +1,5 @@
 Programming:
 * Add game over condition - all grey
-* Fix "dead" villagers throwing water
 * Create HUD
 * Create "fog" over unseen area
 * Move villagers to z-index 2
