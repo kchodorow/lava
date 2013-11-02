@@ -2,7 +2,8 @@ Programming:
 * Add game over condition - all grey
 * Create HUD
 * Create "fog" over unseen area
-* Move villagers to z-index 2
+* Allow scrolling
+* Don't let villagers move to squares with other villagers
 
 Art:
 * Create villager animation

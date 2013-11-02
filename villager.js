@@ -52,6 +52,7 @@ lava.Villager.prototype.move = function(board) {
         // Otherwise, move
         this.row = row;
         this.col = col;
+        goog.style.setStyle(this.domElement, 'z-index', 2);
 	this.runAction(new lime.animation.MoveTo(
                            col*lava.kLen+lava.kLen/2,
                            row*lava.kLen+lava.kLen/2));
