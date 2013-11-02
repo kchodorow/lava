@@ -106,6 +106,14 @@ lava.Board = function() {
 
 goog.inherits(lava.Board, lime.Layer);
 
+// Safe to call for row/col outside of board, returns null.
+lava.Board.prototype.getSquare = function(row, col) {
+    if (row in this.board && col in this.board[row]) {
+        return this.board[row][col];
+    }
+    return null;
+};
+
 // this = lime.Layer
 lava.Board.onTouch = function(square) {
     var row = square.row;
@@ -113,7 +121,7 @@ lava.Board.onTouch = function(square) {
     var board = this.board;
 
     var villagers = this.villagers;
-    villagers.dowse(board);
+    villagers.dowse(this);
 
     // Add new square to the board
     for (var r = row-1; r <= row+1; r++) {
@@ -125,11 +133,11 @@ lava.Board.onTouch = function(square) {
             var cStr = c+'';
             if (!(cStr in board[rStr])) {
                 var newSquare = new lava.Square(r, c);
-                if (random(2) == 0) {
-                    newSquare.appendChild(villagers.add(r, c));
-                }
                 board[rStr][cStr] = newSquare;
                 this.appendChild(newSquare);
+                if (random(2) == 0) {
+                    this.appendChild(villagers.add(r, c));
+                }
             }
         }
     }
