@@ -34,13 +34,33 @@ lava.Square = function(row, col) {
 goog.inherits(lava.Square, lime.Sprite);
 
 lava.Square.onTouch = function(e) {
-    if (this.getFill().str == lava.kLavaFill) {
+    if (this.getType() != lava.kGrass ||
+        !this.isLavaAdjacent()) {
         return;
+    }
+
+    // Kill villager
+    if (this.getNumberOfChildren() == 1) {
+        this.getChildAt(0).kill();
     }
 
     this.setType(lava.kLava);
     // Propegate
     lava.Board.onTouch.call(this.getParent(), this);
+};
+
+lava.Square.prototype.isLavaAdjacent = function() {
+    var board = this.getParent().board;
+    for (var row = this.row-1; row <= this.row+1; row++) {
+        for (var col = this.col-1; col <= this.col+1; col++) {
+            if (row in board && 
+                col in board[row] &&
+                board[row][col].getType() == lava.kLava) {
+                return true;
+            }
+        }
+    }
+    return false;
 };
 
 lava.Square.prototype.getType = function() {

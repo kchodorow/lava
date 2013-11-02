@@ -1,8 +1,6 @@
 goog.provide('lava.Villager');
 goog.provide('lava.Villagers');
 
-goog.require('lime.Label');
-
 lava.Villager = function(row, col) {
     lime.Sprite.call(this);
 
@@ -14,6 +12,15 @@ lava.Villager = function(row, col) {
 };
 
 goog.inherits(lava.Villager, lime.Sprite);
+
+lava.Villager.prototype.kill = function() {
+    this.alive_ = false;
+    this.setFill('#777');
+};
+
+lava.Villager.prototype.isAlive = function() {
+    return this.alive_;
+};
 
 // Villager actions.
 lava.Villagers = function() {
@@ -29,6 +36,9 @@ lava.Villagers.prototype.add = function(row, col) {
 lava.Villagers.prototype.dowse = function(board) {
     for (var i = 0; i < this.villagers.length; i++) {
         villager = this.villagers[i];
+        if (!villager.isAlive()) {
+            continue;
+        }
 
         outer:
         for (var row = -1; row <= 1; row++) {
