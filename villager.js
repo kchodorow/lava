@@ -1,6 +1,10 @@
 goog.provide('lava.Villager');
 goog.provide('lava.Villagers');
 
+goog.require('lava.Audio');
+
+goog.require('lime.Sprite');
+
 lava.Villager = function(row, col) {
     lime.Sprite.call(this);
 
@@ -18,6 +22,7 @@ goog.inherits(lava.Villager, lime.Sprite);
 lava.Villager.prototype.kill = function() {
     this.alive_ = false;
     this.setFill('#777');
+    lava.Audio.burnVillager();
 };
 
 lava.Villager.prototype.isAlive = function() {
@@ -78,6 +83,7 @@ lava.Villager.prototype.water = function(board) {
                 col in board[row] &&
                 board[row][col].getType() == lava.kLava) {
                 board[row][col].setType(lava.kRock);
+                lava.Audio.fizzle();
                 return;
             }
         }

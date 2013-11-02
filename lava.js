@@ -1,6 +1,7 @@
 //set main namespace
 goog.provide('lava');
 
+goog.require('lava.Audio');
 goog.require('lava.Board');
 
 goog.require('lime.Director');
@@ -14,6 +15,7 @@ var random = function(num) {
 lava.start = function(){
     var director = new lime.Director(document.body,1024,768);
     var scene = new lime.Scene();
+    lava.Audio.setup();
 
     // TODO: black background
 
