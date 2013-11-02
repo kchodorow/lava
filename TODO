@@ -1,1 +1,18 @@
+Programming:
 * Add game over condition - all grey
+* Fix "dead" villagers throwing water
+* Create HUD
+* Create "fog" over unseen area
+* Move villagers to z-index 2
+
+Art:
+* Create villager animation
+* Create lava
+* Create grass
+* Create rock
+* Choose font
+
+Sounds:
+* Create burning sound effect
+* Create cooling sound effect
+* Create villager dying sound effect
