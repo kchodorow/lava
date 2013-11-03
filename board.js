@@ -2,7 +2,6 @@ goog.provide('lava.Board');
 goog.provide('lava.Square');
 
 goog.require('lava.Audio');
-goog.require('lava.Stats');
 goog.require('lava.Villager');
 
 goog.require('lime.Layer');
@@ -30,7 +29,9 @@ lava.Square = function(row, col) {
     this.setType(lava.kGrass);
 
     this.tree_ = null;
-    if (random(20) == 0) {
+    if (row == 1 && col == 1) {
+        // don't add tree to first tile
+    } else if (random(20) == 0) {
         this.tree_ = new lime.Sprite()
             .setFill(lava.spriteSheet.getFrame('tree.png'))
             .setPosition(lava.kLen/2, lava.kLen/2);
@@ -54,7 +55,7 @@ lava.Square.onTouch = function(e) {
     if (this.tree_) {
         lava.addToTurns(10);
         this.removeChild(this.tree_);
-        var plus = label("+10°")
+        var plus = label("+10\u00b0")
             .setPosition(this.col*lava.kLen+lava.kLen/2, 
                          this.row*lava.kLen+lava.kLen/2);
         this.getParent().appendChild(plus);

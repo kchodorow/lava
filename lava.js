@@ -23,8 +23,6 @@ lava.kFontColor = lava.kTan;
 lava.kFontSize = 24;
 lava.kMaxTurns = 100;
 
-goog.DEBUG = false;
-
 // Generate a random number between 0 and num-1.
 var random = function(num) {
     return Math.floor(Math.random()*num);

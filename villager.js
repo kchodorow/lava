@@ -2,7 +2,6 @@ goog.provide('lava.Villager');
 goog.provide('lava.Villagers');
 
 goog.require('lava.Audio');
-goog.require('lava.Stats');
 
 goog.require('lime.Sprite');
 goog.require('lime.animation.FadeTo');
