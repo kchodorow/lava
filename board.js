@@ -105,6 +105,14 @@ lava.Board = function() {
     this.board['1']['1'].setType(lava.kLava);
     this.villagers = new lava.Villagers(this);
     this.setSize(lava.kLen*3, lava.kLen*3);
+
+    // Setup scrolling
+    goog.events.listen(
+        this,
+        [goog.events.EventType.MOUSEDOWN, goog.events.EventType.TOUCHSTART],
+        function(e) {
+	    e.startDrag();
+	});
 };
 
 goog.inherits(lava.Board, lime.Layer);
