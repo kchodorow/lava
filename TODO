@@ -2,7 +2,6 @@ Programming:
 * Move peasants in from edges
 * Spawn villagers in "old" grass
 * Sometimes peasants stop moving/get stuck
-* BUG: doesn't detect no more moves
 
 Optional:
 * Create "fog" over unseen area

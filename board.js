@@ -131,13 +131,15 @@ lava.Board.prototype.getSquare = function(row, col) {
 
 lava.Board.prototype.addToLavaList = function(square) {
     this.lavaList_.push(square);
-    lava.Stats.lavaSquare++;
+    lava.Stats.lavaSquares++;
 };
 
 lava.Board.prototype.rmFromLavaList = function(square) {
-    goog.array.remove(this.lavaList_, square);
-    lava.Stats.lavaSquare--;
-    lava.Stats.cooledSquare--;
+    if (goog.array.remove(this.lavaList_, square)) {
+        // if this is called multiple times, only count once
+        lava.Stats.lavaSquares--;
+        lava.Stats.cooledSquares++;      
+    }
 
     if (!this.tutorial.cooled.hasGone) {
         this.appendChild(this.tutorial.cooled);

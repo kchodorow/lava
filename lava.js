@@ -74,18 +74,18 @@ lava.registerTurn = function() {
 };
 
 lava.endGame = function() {
-    var width = 50;
+    var width = 0;
     var height = -50;
     var box = new lime.Sprite().setFill(lava.kTan)
         .setSize(600, 400).setPosition(512, 384);
 
-    box.appendChild(label("Game Over").setPosition(width, height));
+    box.appendChild(label("Game Over!").setPosition(width, height));
     height += 50;
 
     box.appendChild(label("Hot lava: "+lava.Stats.lavaSquares)
         .setFontSize(lava.kFontSize).setPosition(width, height));
     height += 30;
-    box.appendChild(label("Cooled lava: "+lava.Stats.lavaSquares)
+    box.appendChild(label("Cooled lava: "+lava.Stats.cooledSquares)
         .setFontSize(lava.kFontSize).setPosition(width, height));
     height += 30;
     box.appendChild(label("Villagers killed: "+lava.Stats.villagersKilled)

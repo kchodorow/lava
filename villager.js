@@ -208,6 +208,10 @@ var coolLava = function(square, villager) {
         villager.move_ = null;
         villager.throwWater_ = null;
     }
+
+    if (lava.turnsRemaining == 0 || !square.getParent().hasMoves()) {
+        lava.endGame();
+    }
 };
 
 lava.Villager.prototype.setOld = function() {
