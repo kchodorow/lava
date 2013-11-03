@@ -6,13 +6,12 @@ Programming:
 * Add trees
 * Add huts
 * Add instructions
-* Make animation only play once
 * Make animation slower
+* Make peasants point the right direction
+** when moving
+** when throwing water
 
 Optional:
 * Experiment with larger pixels
 * Lava lamp
-
-Art:
-* Add fog animation
 

@@ -5,7 +5,10 @@ goog.require('lava.Audio');
 goog.require('lava.Stats');
 
 goog.require('lime.Sprite');
+goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.KeyframeAnimation');
+goog.require('lime.animation.MoveBy');
+goog.require('lime.animation.Spawn');
 
 lava.Villager = function(row, col) {
     lime.Sprite.call(this);
@@ -14,6 +17,7 @@ lava.Villager = function(row, col) {
     this.setPosition(lava.kLen*col+lava.kLen/2, lava.kLen*row+lava.kLen/2);
 
     var walk = new lime.animation.KeyframeAnimation();
+    walk.setDelay(1/8);
     walk.addFrame(lava.spriteSheet.getFrame('villager1.png'));
     walk.addFrame(lava.spriteSheet.getFrame('villager_step.png'));
     walk.addFrame(lava.spriteSheet.getFrame('villager2.png'));
@@ -102,10 +106,8 @@ lava.Villager.prototype.water = function(board) {
                 continue;
             }
             if (square.getType() == lava.kLava) {
-                square.setType(lava.kRock);
-                lava.Audio.fizzle();
-
-                var sploosh = new lime.animation.KeyframeAnimation();
+                var sploosh = new lime.animation.KeyframeAnimation()
+                    .setDelay(1/8).setLooping(false);
                 sploosh.addFrame(
                     lava.spriteSheet.getFrame('villager0.png'));
                 sploosh.addFrame(
@@ -113,10 +115,32 @@ lava.Villager.prototype.water = function(board) {
                 sploosh.addFrame(
                     lava.spriteSheet.getFrame('villager_throw2.png'));
                 this.runAction(sploosh);
+                goog.events.listen(sploosh, lime.animation.Event.STOP, 
+                                   goog.partial(coolLava, square));
                 return;
             }
         }
     }
+};
+
+var coolLava = function(square) {
+    lava.Audio.fizzle();
+
+    var overlay = new lime.Sprite()
+        .setFill(lava.spriteSheet.getFrame(lava.kLavaFill))
+        .setPosition(lava.kLen/2, lava.kLen/2);
+    square.appendChild(overlay);
+    overlay.runAction(new lime.animation.FadeTo(0));
+
+    var cloud = new lime.Sprite()
+        .setFill(lava.spriteSheet.getFrame(lava.kCloudFill))
+        .setPosition(lava.kLen/2, lava.kLen/2);
+    square.appendChild(cloud);
+    cloud.runAction(new lime.animation.Spawn(
+                        new lime.animation.FadeTo(0),
+                        new lime.animation.MoveBy(0, -lava.kLen)));
+
+    square.setType(lava.kRock);
 };
 
 lava.Villager.prototype.setOld = function() {

@@ -12,10 +12,11 @@ lava.kLen = 44;
 lava.kGrass = 0;
 lava.kLava = 1;
 lava.kRock = 2;
-lava.kGrassFill = '#0f0';
-lava.kLavaFill = '#f00';
-lava.kRockFill = '#999';
+lava.kGrassFill = 'grass.png';
+lava.kLavaFill = 'lava.png';
+lava.kRockFill = 'charred.png';
 lava.kTypeUnknown = '#fff';
+lava.kCloudFill = 'cloud.png';
 
 lava.Square = function(row, col) {
     lime.Sprite.call(this);
