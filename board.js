@@ -69,13 +69,13 @@ lava.Square.prototype.setType = function(type) {
     this.type_ = type;
     switch (this.type_) {
     case lava.kGrass:
-        this.setFill(lava.kGrassFill);
+        this.setFill(lava.spriteSheet.getFrame('grass.png'));
         break;
     case lava.kLava:
-        this.setFill(lava.kLavaFill);
+        this.setFill(lava.spriteSheet.getFrame('lava.png'));
         break;
     case lava.kRock:
-        this.setFill(lava.kRockFill);
+        this.setFill(lava.spriteSheet.getFrame('charred.png'));
         break;
     default:
         this.setFill(lava.kTypeUnknown);

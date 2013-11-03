@@ -7,6 +7,9 @@ goog.require('lava.Hud');
 
 goog.require('lime.Director');
 goog.require('lime.Scene');
+goog.require('lime.parser.JSON');
+goog.require('lime.ASSETS.lava.json');
+goog.require('lime.SpriteSheet');
 
 lava.kMaxTurns = 100;
 
@@ -19,6 +22,9 @@ lava.start = function(){
     var director = new lime.Director(document.body,1024,768);
     var scene = new lime.Scene();
     lava.Audio.setup();
+    this.spriteSheet = new lime.SpriteSheet('assets/lava.png',
+					    lime.ASSETS.lava.json,
+					    lime.parser.JSON);
 
     // TODO: black background
 
