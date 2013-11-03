@@ -17,8 +17,7 @@ lava.Villager = function(row, col) {
     this.facing_ = lava.Villager.kRight;
     if (random(2) == 0) {
         // face left
-        this.setScale(-1, 1);
-        this.facing_ = lava.Villager.kLeft;
+        this.changeDirection();
     }
 
     this.setPosition(lava.kLen*col+lava.kLen/2, lava.kLen*row+lava.kLen/2);
@@ -65,6 +64,9 @@ lava.Villager.prototype.move = function(board) {
     for (var i = 0; i < 9; i++) {
         var row = this.row + (Math.floor(dir/3) - 1);
         var col = this.col + (dir%3 - 1);
+        if (row == this.row && col == this.col) {
+            continue;
+        }
         var square = board.getSquare(row, col);
 
         // If this is unwalkable, try another direction
@@ -76,9 +78,6 @@ lava.Villager.prototype.move = function(board) {
         }
 
         // Otherwise, move
-        this.row = row;
-        this.col = col;
-        goog.style.setStyle(this.domElement, 'z-index', 2);
         if (this.throwWater_ != null) {
             this.move_ = goog.partial(this.moveAnimation, row, col, square);
         } else {
@@ -93,6 +92,15 @@ lava.Villager.prototype.move = function(board) {
 };
 
 lava.Villager.prototype.moveAnimation = function(row, col, square) {
+    if ((col < this.col && this.facing_ == lava.Villager.kRight) ||
+        col > this.col && this.facing_ == lava.Villager.kLeft) {
+        this.changeDirection();
+    }
+
+    this.row = row;
+    this.col = col;
+    goog.style.setStyle(this.domElement, 'z-index', 2);
+
     var move = new lime.animation.MoveTo(
         col*lava.kLen+lava.kLen/2, row*lava.kLen+lava.kLen/2);
     this.runAction(move);
@@ -120,6 +128,12 @@ var stopWalk = function(action) {
     action.stop();
 };
 
+lava.Villager.prototype.changeDirection = function() {
+    this.setScale(-1, 1);
+    this.facing_ = (this.facing_ == lava.Villager.kLeft) ?
+        lava.Villager.kRight : lava.Villager.kLeft;
+};
+
 lava.Villager.prototype.water = function(board) {
     if (this.new_) {
         return;
@@ -136,9 +150,9 @@ lava.Villager.prototype.water = function(board) {
             }
             if (square.getType() == lava.kLava) {
                 // facing
-                if ((col == -1 && this.facing_ == lava.Villager.kRight) ||
-                    col == 1 && this.facing_ == lava.Villager.kLeft) {
-                    this.setScale(-1, 1);
+                if ((col < this.col && this.facing_ == lava.Villager.kRight) ||
+                    col > this.col && this.facing_ == lava.Villager.kLeft) {
+                    this.changeDirection();
                 }
 
                 var sploosh = new lime.animation.KeyframeAnimation()
@@ -149,6 +163,8 @@ lava.Villager.prototype.water = function(board) {
                     lava.spriteSheet.getFrame('villager_throw1.png'));
                 sploosh.addFrame(
                     lava.spriteSheet.getFrame('villager_throw2.png'));
+                sploosh.addFrame(
+                    lava.spriteSheet.getFrame('villager0.png'));
                 this.throwWater_ = sploosh;
                 this.runAction(sploosh);
                 goog.events.listen(sploosh, lime.animation.Event.STOP, 

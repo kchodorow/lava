@@ -3,12 +3,12 @@ Programming:
 * Allow scrolling
 * Don't let villagers move to squares with other villagers
 * Add instructions
-* Make peasants point the right direction
-** when moving
 * Move peasants in from edges
+* Spawn villagers in "old" grass
 
 Optional:
 * Experiment with larger pixels
 * Lava lamp
 * Add trees
 * Add huts
+* Make peasants point the right direction when moving
