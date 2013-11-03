@@ -2,6 +2,7 @@ goog.provide('lava.Board');
 goog.provide('lava.Square');
 
 goog.require('lava.Audio');
+goog.require('lava.Stats');
 goog.require('lava.Villager');
 
 goog.require('lime.Layer');
@@ -73,9 +74,11 @@ lava.Square.prototype.setType = function(type) {
         break;
     case lava.kLava:
         this.setFill(lava.spriteSheet.getFrame('lava.png'));
+        this.getParent().addToLavaList(this);
         break;
     case lava.kRock:
         this.setFill(lava.spriteSheet.getFrame('charred.png'));
+        this.getParent().rmFromLavaList(this);
         break;
     default:
         this.setFill(lava.kTypeUnknown);
@@ -84,6 +87,8 @@ lava.Square.prototype.setType = function(type) {
 
 lava.Board = function() {
     lime.Layer.call(this);
+
+    this.lavaList_ = [];
 
     // Start with a 3x3 board
     this.board = {};
@@ -112,14 +117,37 @@ lava.Board.prototype.getSquare = function(row, col) {
     return null;
 };
 
+lava.Board.prototype.addToLavaList = function(square) {
+    this.lavaList_.push(square);
+    lava.Stats.lavaSquare++;
+};
+
+lava.Board.prototype.rmFromLavaList = function(square) {
+    goog.array.remove(this.lavaList_, square);
+    lava.Stats.lavaSquare--;
+    lava.Stats.cooledSquare--;
+};
+
+lava.Board.prototype.hasMoves = function() {
+    for (var i = 0; i < this.lavaList_.length; i++) {
+        var live = this.lavaList_[i];
+        for (var j = live.row-1; j <= live.row+1; j++) {
+            for (var k = live.col-1; k <= live.col+1; k++) {
+                var square = this.getSquare(j, k);
+                if (square != null && square.getType() == lava.kGrass) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+};
+
 // this = lime.Layer
 lava.Board.onTouch = function(square) {
     var row = square.row;
     var col = square.col;
     var board = this.board;
-
-    this.villagers.kill();
-    this.villagers.dowse();
 
     // Add new square to the board
     for (var r = row-1; r <= row+1; r++) {
@@ -138,5 +166,13 @@ lava.Board.onTouch = function(square) {
                 }
             }
         }
+    }
+
+    this.villagers.kill();
+    // After adding villagers, so they get picked up next round
+    this.villagers.douse();
+
+    if (lava.turnsRemaining == 0 || !this.hasMoves()) {
+        lava.endGame();
     }
 };

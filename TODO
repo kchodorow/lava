@@ -1,5 +1,4 @@
 Programming:
-* Add game over condition - all grey
 * Create "fog" over unseen area
 * Allow scrolling
 * Don't let villagers move to squares with other villagers
@@ -9,7 +8,10 @@ Programming:
 * Add instructions
 * Make animation only play once
 * Make animation slower
+
+Optional:
 * Experiment with larger pixels
+* Lava lamp
 
 Art:
 * Add fog animation
