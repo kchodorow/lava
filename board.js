@@ -28,6 +28,15 @@ lava.Square = function(row, col) {
         .setPosition(lava.kLen*this.col, lava.kLen*this.row)
         .setAnchorPoint(0, 0);
     this.setType(lava.kGrass);
+
+    this.tree_ = null;
+    if (random(20) == 0) {
+        this.tree_ = new lime.Sprite()
+            .setFill(lava.spriteSheet.getFrame('tree.png'))
+            .setPosition(lava.kLen/2, lava.kLen/2);
+        this.appendChild(this.tree_);
+    }
+
     goog.events.listen(this,
                        [goog.events.EventType.MOUSEDOWN, 
                         goog.events.EventType.TOUCHSTART],
@@ -42,6 +51,18 @@ lava.Square.onTouch = function(e) {
         return;
     }
 
+    if (this.tree_) {
+        lava.addToTurns(10);
+        this.removeChild(this.tree_);
+        var plus = label("+10°")
+            .setPosition(this.col*lava.kLen+lava.kLen/2, 
+                         this.row*lava.kLen+lava.kLen/2);
+        this.getParent().appendChild(plus);
+        plus.runAction(
+            new lime.animation.Spawn(
+                new lime.animation.MoveBy(0, -lava.kLen),
+                new lime.animation.FadeTo(0).setDuration(3)));
+    }
     lava.registerTurn();
     this.setType(lava.kLava);
     lava.Audio.burnGrass();

@@ -19,7 +19,7 @@ lava.kBlue = 'rgb(6,31,42)';
 lava.kGreen = 'rgb(7,41,6)';
 lava.kRed = 'rgb(217,21,14)';
 lava.kMaroon = 'rgb(111,12,28)';
-lava.kFontColor = lava.kBlue;
+lava.kFontColor = lava.kTan;
 lava.kFontSize = 24;
 lava.kMaxTurns = 100;
 
@@ -76,6 +76,10 @@ lava.start = function(){
 lava.registerTurn = function() {
     this.hud_.setProgress(--this.turnsRemaining);
     lava.Stats.turnsPlayed++;
+};
+
+lava.addToTurns = function(num) {
+    this.turnsRemaining = Math.min(this.turnsRemaining + num, 100);
 };
 
 lava.endGame = function() {

@@ -105,7 +105,9 @@ lava.Villager.prototype.moveAnimation = function(row, col, square) {
 
     this.row = row;
     this.col = col;
-    goog.style.setStyle(this.domElement, 'z-index', 2);
+    if (this.domElement) {
+        goog.style.setStyle(this.domElement, 'z-index', 2);    
+    }
 
     var move = new lime.animation.MoveTo(
         col*lava.kLen+lava.kLen/2, row*lava.kLen+lava.kLen/2);
