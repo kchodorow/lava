@@ -69,10 +69,16 @@ lava.Villager.prototype.move = function(board) {
         this.row = row;
         this.col = col;
         goog.style.setStyle(this.domElement, 'z-index', 2);
-	this.runAction(new lime.animation.MoveTo(
-                           col*lava.kLen+lava.kLen/2,
-                           row*lava.kLen+lava.kLen/2));
-        // TODO: remove if off board
+        var move = new lime.animation.MoveTo(
+            col*lava.kLen+lava.kLen/2, row*lava.kLen+lava.kLen/2);
+        this.runAction(move);
+        if (square == null) {
+            var removeDude = function(){
+                var villager = this.targets[0];
+                villager.kill();
+            };
+            goog.events.listen(move, lime.animation.Event.STOP, removeDude);
+        }
         return true;
     }
     // No where to walk
