@@ -88,23 +88,28 @@ lava.endGame = function() {
     var box = new lime.Sprite().setFill(lava.kTan)
         .setSize(600, 400).setPosition(512, 384);
 
-    box.appendChild(label("Game Over!").setPosition(width, height));
+    box.appendChild(label("Game Over!").setPosition(width, height)
+        .setFontColor(lava.kMaroon));
     height += 50;
 
     box.appendChild(label("Hot lava: "+lava.Stats.lavaSquares)
-        .setFontSize(lava.kFontSize).setPosition(width, height));
+        .setFontSize(lava.kFontSize).setPosition(width, height)
+        .setFontColor(lava.kMaroon));
     height += 30;
     box.appendChild(label("Cooled lava: "+lava.Stats.cooledSquares)
-        .setFontSize(lava.kFontSize).setPosition(width, height));
+        .setFontSize(lava.kFontSize).setPosition(width, height)
+        .setFontColor(lava.kMaroon));
     height += 30;
-    box.appendChild(label("Villagers killed: "+lava.Stats.villagersKilled)
-        .setFontSize(lava.kFontSize).setPosition(width, height));
+    box.appendChild(label("Villagers burned: "+lava.Stats.villagersKilled)
+        .setFontSize(lava.kFontSize).setPosition(width, height)
+        .setFontColor(lava.kMaroon));
     height += 30;
     box.appendChild(label("Number of moves: "+lava.Stats.turnsPlayed)
-        .setFontSize(lava.kFontSize).setPosition(width, height));
+        .setFontSize(lava.kFontSize).setPosition(width, height)
+        .setFontColor(lava.kMaroon));
 
     box.setOpacity(0);
-    box.runAction(new lime.animation.FadeTo(255).setDuration(20));
+    box.runAction(new lime.animation.FadeTo(1).setDuration(3));
     this.scene.appendChild(box);
 };
 
