@@ -1,14 +1,15 @@
 Programming:
-* Create "fog" over unseen area
-* Add instructions
 * Move peasants in from edges
 * Spawn villagers in "old" grass
-* Turn off debug
+* Sometimes peasants stop moving/get stuck
+* BUG: doesn't detect no more moves
 
 Optional:
+* Create "fog" over unseen area
 * Experiment with larger pixels
 * Lava lamp
 * Add trees
 * Add huts
 * Make peasants point the right direction when moving
 * Don't let villagers move to squares with other villagers
+* Add marks on themometer

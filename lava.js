@@ -13,9 +13,10 @@ goog.require('lime.parser.JSON');
 goog.require('lime.ASSETS.lava.json');
 goog.require('lime.SpriteSheet');
 
-lava.kTan = {r: 248, g: 205, b: 142};
-lava.kBlue = {r: 6, g: 31, b: 42};
-lava.kGreen = {r: 7, g: 41, b: 6};
+lava.kTan = 'rgb(248,205,142)';
+lava.kBlue = 'rgb(6,31,42)';
+lava.kGreen = 'rgb(7,41,6)';
+lava.kRed = 'rgb(217,21,14)';
 lava.kFontColor = lava.kBlue;
 lava.kFontSize = 24;
 lava.kMaxTurns = 100;
@@ -36,8 +37,8 @@ var center = function(item) {
 
 var label = function(text) {
     return new lime.Label().setText(text).setFontSize(40)
-        .setFontColor(lava.kFontColor.r, lava.kFontColor.g, lava.kFontColor.b)
-        .setFontFamily('VT323');
+        .setFontColor(lava.kFontColor)
+        .setFontFamily('VT323').setMultiline(true);
 };
 
 lava.start = function(){
@@ -51,10 +52,9 @@ lava.start = function(){
 					    lime.ASSETS.lava.json,
 					    lime.parser.JSON);
     var bg = new lime.Sprite().setSize(lava.kWidth, lava.kHeight)
-        .setFill(lava.kBlue.r, lava.kBlue.g, lava.kBlue.b)
+        .setFill(lava.kBlue)
         .setPosition(512, 384);
     scene.appendChild(bg);
-    // TODO: black background
     var board = new lava.Board();
     center(board);
     scene.appendChild(board);
@@ -75,7 +75,7 @@ lava.registerTurn = function() {
 lava.endGame = function() {
     var width = 50;
     var height = -50;
-    var box = new lime.Sprite().setFill(lava.kTan.r, lava.kTan.g, lava.kTan.b)
+    var box = new lime.Sprite().setFill(lava.kTan)
         .setSize(600, 400).setPosition(512, 384);
 
     box.appendChild(label("Game Over").setPosition(width, height));

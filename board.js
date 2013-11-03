@@ -106,6 +106,10 @@ lava.Board = function() {
     this.villagers = new lava.Villagers(this);
     this.setSize(lava.kLen*3, lava.kLen*3);
 
+    this.tutorial = new lava.Tutorial();
+    this.appendChild(this.tutorial.grass);
+    this.tutorial.grass.active_ = true;
+
     // Setup scrolling
     goog.events.listen(
         this,
@@ -134,6 +138,12 @@ lava.Board.prototype.rmFromLavaList = function(square) {
     goog.array.remove(this.lavaList_, square);
     lava.Stats.lavaSquare--;
     lava.Stats.cooledSquare--;
+
+    if (!this.tutorial.cooled.hasGone) {
+        this.appendChild(this.tutorial.cooled);
+        this.tutorial.cooled.hasGone = true;
+        this.tutorial.cooled.active_ = true;
+    }
 };
 
 lava.Board.prototype.hasMoves = function() {
@@ -153,6 +163,23 @@ lava.Board.prototype.hasMoves = function() {
 
 // this = lime.Layer
 lava.Board.onTouch = function(square) {
+    if (this.tutorial.grass.active_) {
+        this.removeChild(this.tutorial.grass);
+        this.tutorial.grass.active_ = false;
+    } else if (this.tutorial.villagers.active_) {
+        this.removeChild(this.tutorial.villagers);
+        this.tutorial.villagers.active_ = false;
+    } else if (this.tutorial.cooled.active_) {
+        this.removeChild(this.tutorial.cooled);
+        this.tutorial.cooled.active_ = false;
+
+        this.appendChild(this.tutorial.temp);
+        this.tutorial.temp.active_ = true;
+    } else if (this.tutorial.temp.active_) {
+        this.removeChild(this.tutorial.temp);
+        this.tutorial.temp.active_ = false;        
+    }
+
     var row = square.row;
     var col = square.col;
     var board = this.board;
@@ -171,6 +198,12 @@ lava.Board.onTouch = function(square) {
                 this.appendChild(newSquare);
                 if (random(2) == 0) {
                     this.appendChild(this.villagers.add(r, c));
+
+                    if (!this.tutorial.villagers.hasGone) {
+                        this.appendChild(this.tutorial.villagers);
+                        this.tutorial.villagers.active_ = true;
+                        this.tutorial.villagers.hasGone = true;
+                    }
                 }
             }
         }
@@ -183,4 +216,27 @@ lava.Board.onTouch = function(square) {
     if (lava.turnsRemaining == 0 || !this.hasMoves()) {
         lava.endGame();
     }
+};
+
+lava.Tutorial = function() {
+    this.text = [
+        "Click on the grass next\nto you to spread.",
+        "Villagers will throw water on you\n(unless you burn them).",
+        "Cooled off lava blocks you and villagers.",
+        "Once you've cooled off completely or\nrun out of possible moves, the game is over."
+    ];
+
+    this.grass = label(this.text[0])
+        .setFontColor(lava.kTan).setAnchorPoint(.5, 0)
+        .setPosition(80, -150);
+    this.villagers = label(this.text[1])
+        .setFontColor(lava.kTan).setAnchorPoint(.5, 0)
+        .setPosition(80, -150);
+    this.villagers.hasGone = false;
+    this.cooled = label(this.text[2])
+        .setFontColor(lava.kTan).setAnchorPoint(.5, 0)
+        .setPosition(80, -150);
+    this.temp = label(this.text[3])
+        .setFontColor(lava.kTan).setAnchorPoint(.5, 0)
+        .setPosition(80, -150);
 };

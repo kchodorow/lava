@@ -10,6 +10,8 @@ goog.require('lime.animation.KeyframeAnimation');
 goog.require('lime.animation.MoveBy');
 goog.require('lime.animation.Spawn');
 
+var kCounter = 0;
+
 lava.Villager = function(row, col) {
     lime.Sprite.call(this);
 
@@ -29,6 +31,12 @@ lava.Villager = function(row, col) {
 
     this.throwWater_ = null;
     this.move_ = null;
+
+    if (goog.DEBUG) {
+        var num = new lime.Label().setText(kCounter).setFontColor('#fff');
+        this.appendChild(num);
+        this.num_ = kCounter++;        
+    }
 };
 
 goog.inherits(lava.Villager, lime.Sprite);

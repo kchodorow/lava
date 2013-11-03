@@ -7,26 +7,26 @@ lava.Hud = function() {
     lime.RoundedRect.call(this);
 
     this.percent_ = 100;
-    this.setRadius(5).setSize(lava.Hud.kWidth, lava.Hud.kHeight).setFill('#000')
-        .setAnchorPoint(0, .5);
+    this.setRadius(lava.Hud.kWidth/2)
+        .setSize(lava.Hud.kWidth, lava.Hud.kHeight).setFill('#000')
+        .setAnchorPoint(.5, 1).setPosition(50, 270);
 
-    var inner = new lime.RoundedRect().setRadius(5)
+    var inner = new lime.RoundedRect().setRadius(lava.Hud.kWidth/2)
         .setSize(lava.Hud.kWidth, lava.Hud.kHeight)
-        .setAnchorPoint(0, .5)
-        .setFill('#Ff9900');
+        .setAnchorPoint(.5, 1)
+        .setFill(lava.kRed);
     this.appendChild(inner);
     this.inner_ = inner;
-    this.setPosition(50, 50);
 };
 
 goog.inherits(lava.Hud, lime.RoundedRect);
 
-lava.Hud.kWidth = 200;
-lava.Hud.kHeight = 10;
+lava.Hud.kWidth = 20;
+lava.Hud.kHeight = 250;
 
 lava.Hud.prototype.setProgress = function(value) {
     this.percent_ = value;
-    this.inner_.setSize(lava.Hud.kWidth*(this.percent_/100), lava.Hud.kHeight);
+    this.inner_.setSize(lava.Hud.kWidth, lava.Hud.kHeight*(this.percent_/100));
     return this;
 };
 
