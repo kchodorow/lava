@@ -8,8 +8,8 @@ lava.Hud = function() {
 
     this.percent_ = 100;
     this.setRadius(lava.Hud.kWidth/2)
-        .setSize(lava.Hud.kWidth, lava.Hud.kHeight).setFill('#000')
-        .setAnchorPoint(.5, 1).setPosition(50, 270);
+        .setSize(lava.Hud.kWidth, lava.Hud.kHeight).setFill(lava.kMaroon)
+        .setAnchorPoint(.5, 1).setPosition(80, 310);
 
     var inner = new lime.RoundedRect().setRadius(lava.Hud.kWidth/2)
         .setSize(lava.Hud.kWidth, lava.Hud.kHeight)
@@ -17,6 +17,10 @@ lava.Hud = function() {
         .setFill(lava.kRed);
     this.appendChild(inner);
     this.inner_ = inner;
+
+    var temp = label('Temperature').setFontSize(24).setPosition(0, -285)
+        .setFontColor(lava.kTan).setAnchorPoint(.5, .5);
+    this.appendChild(temp);
 };
 
 goog.inherits(lava.Hud, lime.RoundedRect);
