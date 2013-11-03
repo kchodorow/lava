@@ -9,7 +9,7 @@ lava.Hud = function() {
     this.percent_ = 100;
     this.setRadius(lava.Hud.kWidth/2)
         .setSize(lava.Hud.kWidth, lava.Hud.kHeight).setFill(lava.kMaroon)
-        .setAnchorPoint(.5, 1).setPosition(80, 310);
+        .setAnchorPoint(.5, 1).setPosition(lava.kWidth-80, 310);
 
     var inner = new lime.RoundedRect().setRadius(lava.Hud.kWidth/2)
         .setSize(lava.Hud.kWidth, lava.Hud.kHeight)

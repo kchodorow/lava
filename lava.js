@@ -63,6 +63,10 @@ lava.start = function(){
     this.hud_ = new lava.Hud();
     this.turnsRemaining = lava.kMaxTurns;
     scene.appendChild(lava.hud_);
+    var title = label('The Little  Volcano that Could')
+        .setFontColor(lava.kTan)
+        .setPosition(lava.kWidth/2, lava.kHeight - 24);
+    scene.appendChild(title);
     this.scene = scene;
 
     director.makeMobileWebAppCapable();
