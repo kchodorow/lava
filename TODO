@@ -1,7 +1,6 @@
 Programming:
 * Sometimes peasants stop moving/get stuck
 * Scale # of villagers with # of turns
-* Put "bg" in front of villagers when they move off
 
 Optional:
 * Create "fog" over unseen area
@@ -12,3 +11,5 @@ Optional:
 * Make peasants point the right direction when moving
 * Don't let villagers move to squares with other villagers
 * Add marks on themometer
+* Put "bg" in front of villagers when they move off
+* Duration of "game over" fade-in doesn't seem right

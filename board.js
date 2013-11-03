@@ -203,9 +203,13 @@ lava.Board.onTouch = function(square) {
     }
 
     // Generate new villagers
+    // random(14) at lava.Stats.turns == 0
+    // random(4) at turns == 100
+    // -1 every 10 turns
+    var chances = 14 - Math.floor(lava.Stats.turnsPlayed/10);
     for (var r in this.board) {
         for (var c in this.board[r]) {
-            if (this.hasEdge(this.getSquare(r, c)) && random(5) == 0) {
+            if (this.hasEdge(this.getSquare(r, c)) && random(chances) == 0) {
                 this.appendChild(this.villagers.add(r, c));
                 
                 if (!this.tutorial.villagers.hasGone) {

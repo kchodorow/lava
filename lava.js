@@ -12,6 +12,7 @@ goog.require('lime.Scene');
 goog.require('lime.parser.JSON');
 goog.require('lime.ASSETS.lava.json');
 goog.require('lime.SpriteSheet');
+goog.require('lime.animation.FadeTo');
 
 lava.kTan = 'rgb(248,205,142)';
 lava.kBlue = 'rgb(6,31,42)';
