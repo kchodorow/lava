@@ -1,9 +1,9 @@
 Programming:
 * Create "fog" over unseen area
-* Don't let villagers move to squares with other villagers
 * Add instructions
 * Move peasants in from edges
 * Spawn villagers in "old" grass
+* Turn off debug
 
 Optional:
 * Experiment with larger pixels
@@ -11,3 +11,4 @@ Optional:
 * Add trees
 * Add huts
 * Make peasants point the right direction when moving
+* Don't let villagers move to squares with other villagers
