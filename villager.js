@@ -16,18 +16,13 @@ lava.Villager = function(row, col) {
     this.setFill(lava.spriteSheet.getFrame('villager0.png'));
     this.setPosition(lava.kLen*col+lava.kLen/2, lava.kLen*row+lava.kLen/2);
 
-    var walk = new lime.animation.KeyframeAnimation();
-    walk.setDelay(1/8);
-    walk.addFrame(lava.spriteSheet.getFrame('villager1.png'));
-    walk.addFrame(lava.spriteSheet.getFrame('villager_step.png'));
-    walk.addFrame(lava.spriteSheet.getFrame('villager2.png'));
-    walk.addFrame(lava.spriteSheet.getFrame('villager_step.png'));
-    this.runAction(walk);
-
     this.row = row;
     this.col = col;
     this.alive_ = true;
     this.new_ = true;
+
+    this.throwWater_ = null;
+    this.move_ = null;
 };
 
 goog.inherits(lava.Villager, lime.Sprite);
@@ -74,21 +69,45 @@ lava.Villager.prototype.move = function(board) {
         this.row = row;
         this.col = col;
         goog.style.setStyle(this.domElement, 'z-index', 2);
-        var move = new lime.animation.MoveTo(
-            col*lava.kLen+lava.kLen/2, row*lava.kLen+lava.kLen/2);
-        this.runAction(move);
-        if (square == null) {
-            var removeDude = function(){
-                var villager = this.targets[0];
-                villager.kill();
-            };
-            goog.events.listen(move, lime.animation.Event.STOP, removeDude);
+        if (this.throwWater_ != null) {
+            this.move_ = goog.partial(this.moveAnimation, row, col, square);
+        } else {
+            this.moveAnimation(row, col, square);
         }
+
         return true;
     }
     // No where to walk
     this.alive_ = false;
     return false;
+};
+
+lava.Villager.prototype.moveAnimation = function(row, col, square) {
+    var move = new lime.animation.MoveTo(
+        col*lava.kLen+lava.kLen/2, row*lava.kLen+lava.kLen/2);
+    this.runAction(move);
+
+    var walk = new lime.animation.KeyframeAnimation();
+    walk.setDelay(1/8);
+    walk.addFrame(lava.spriteSheet.getFrame('villager1.png'));
+    walk.addFrame(lava.spriteSheet.getFrame('villager_step.png'));
+    walk.addFrame(lava.spriteSheet.getFrame('villager2.png'));
+    walk.addFrame(lava.spriteSheet.getFrame('villager_step.png'));
+    this.runAction(walk);    
+
+    if (square == null) {
+        var removeDude = function(){
+            var villager = this.targets[0];
+            villager.kill();
+        };
+        goog.events.listen(move, lime.animation.Event.STOP, removeDude);
+    }
+    goog.events.listen(move, lime.animation.Event.STOP, 
+                       goog.partial(stopWalk, walk));
+};
+
+var stopWalk = function(action) {
+    action.stop();
 };
 
 lava.Villager.prototype.water = function(board) {
@@ -114,16 +133,17 @@ lava.Villager.prototype.water = function(board) {
                     lava.spriteSheet.getFrame('villager_throw1.png'));
                 sploosh.addFrame(
                     lava.spriteSheet.getFrame('villager_throw2.png'));
+                this.throwWater_ = sploosh;
                 this.runAction(sploosh);
                 goog.events.listen(sploosh, lime.animation.Event.STOP, 
-                                   goog.partial(coolLava, square));
+                                   goog.partial(coolLava, square, this));
                 return;
             }
         }
     }
 };
 
-var coolLava = function(square) {
+var coolLava = function(square, villager) {
     lava.Audio.fizzle();
 
     var overlay = new lime.Sprite()
@@ -141,6 +161,13 @@ var coolLava = function(square) {
                         new lime.animation.MoveBy(0, -lava.kLen)));
 
     square.setType(lava.kRock);
+
+    // If villager needed to move, do that now
+    if (villager.move_ != null) {
+        villager.move_();
+        villager.move_ = null;
+        villager.throwWater_ = null;
+    }
 };
 
 lava.Villager.prototype.setOld = function() {
