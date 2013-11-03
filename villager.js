@@ -22,8 +22,6 @@ lava.Villager = function(row, col) {
         this.changeDirection();
     }
 
-    this.setPosition(lava.kLen*col+lava.kLen/2, lava.kLen*row+lava.kLen/2);
-
     this.row = row;
     this.col = col;
     this.alive_ = true;
@@ -225,7 +223,28 @@ lava.Villagers = function(boardSprite) {
 };
 
 lava.Villagers.prototype.add = function(row, col) {
+    row = parseInt(row);
+    col = parseInt(col);
     var villager = new lava.Villager(row, col);
+
+    outer:
+    for (var r = row-1; r <= row+1; r++) {
+        for (var c = col-1; c <= col+1; c++) {
+            if (this.boardSprite_.getSquare(r, c) == null) {
+                villager.setPosition(
+                    lava.kLen*c+lava.kLen/2, 
+                    lava.kLen*r+lava.kLen/2);
+
+                villager.runAction(
+                    new lime.animation.MoveTo(
+                        lava.kLen*col+lava.kLen/2,
+                        lava.kLen*row+lava.kLen/2));
+                // TODO: facing
+                break outer;
+            }
+        }
+    }
+
     this.villagers.push(villager);
     return villager;
 };

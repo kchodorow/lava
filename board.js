@@ -198,14 +198,20 @@ lava.Board.onTouch = function(square) {
                 var newSquare = new lava.Square(r, c);
                 board[rStr][cStr] = newSquare;
                 this.appendChild(newSquare);
-                if (random(2) == 0) {
-                    this.appendChild(this.villagers.add(r, c));
+            }
+        }
+    }
 
-                    if (!this.tutorial.villagers.hasGone) {
-                        this.appendChild(this.tutorial.villagers);
-                        this.tutorial.villagers.active_ = true;
-                        this.tutorial.villagers.hasGone = true;
-                    }
+    // Generate new villagers
+    for (var r in this.board) {
+        for (var c in this.board[r]) {
+            if (this.hasEdge(this.getSquare(r, c)) && random(5) == 0) {
+                this.appendChild(this.villagers.add(r, c));
+                
+                if (!this.tutorial.villagers.hasGone) {
+                    this.appendChild(this.tutorial.villagers);
+                    this.tutorial.villagers.active_ = true;
+                    this.tutorial.villagers.hasGone = true;
                 }
             }
         }
@@ -218,6 +224,17 @@ lava.Board.onTouch = function(square) {
     if (lava.turnsRemaining == 0 || !this.hasMoves()) {
         lava.endGame();
     }
+};
+
+lava.Board.prototype.hasEdge = function(square) {
+    for (var row = square.row-1; row <= square.row+1; row++) {
+        for (var col = square.col-1; col <= square.col+1; col++) {
+            if (this.getSquare(row, col) == null) {
+                return true;
+            }
+        }
+    }
+    return false;
 };
 
 lava.Tutorial = function() {

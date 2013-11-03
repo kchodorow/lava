@@ -94,6 +94,8 @@ lava.endGame = function() {
     box.appendChild(label("Number of moves: "+lava.Stats.turnsPlayed)
         .setFontSize(lava.kFontSize).setPosition(width, height));
 
+    box.setOpacity(0);
+    box.runAction(new lime.animation.FadeTo(255).setDuration(20));
     this.scene.appendChild(box);
 };
 
