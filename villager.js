@@ -14,6 +14,13 @@ lava.Villager = function(row, col) {
     lime.Sprite.call(this);
 
     this.setFill(lava.spriteSheet.getFrame('villager0.png'));
+    this.facing_ = lava.Villager.kRight;
+    if (random(2) == 0) {
+        // face left
+        this.setScale(-1, 1);
+        this.facing_ = lava.Villager.kLeft;
+    }
+
     this.setPosition(lava.kLen*col+lava.kLen/2, lava.kLen*row+lava.kLen/2);
 
     this.row = row;
@@ -26,6 +33,9 @@ lava.Villager = function(row, col) {
 };
 
 goog.inherits(lava.Villager, lime.Sprite);
+
+lava.Villager.kLeft = 0;
+lava.Villager.kRight = 1;
 
 lava.Villager.prototype.kill = function() {
     this.alive_ = false;
@@ -125,6 +135,12 @@ lava.Villager.prototype.water = function(board) {
                 continue;
             }
             if (square.getType() == lava.kLava) {
+                // facing
+                if ((col == -1 && this.facing_ == lava.Villager.kRight) ||
+                    col == 1 && this.facing_ == lava.Villager.kLeft) {
+                    this.setScale(-1, 1);
+                }
+
                 var sploosh = new lime.animation.KeyframeAnimation()
                     .setDelay(1/8).setLooping(false);
                 sploosh.addFrame(

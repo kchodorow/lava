@@ -2,11 +2,9 @@ Programming:
 * Create "fog" over unseen area
 * Allow scrolling
 * Don't let villagers move to squares with other villagers
-* Set layer width
 * Add instructions
 * Make peasants point the right direction
 ** when moving
-** when throwing water
 * Move peasants in from edges
 
 Optional:
