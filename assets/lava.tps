@@ -20,7 +20,7 @@
         <key>dpi</key>
         <uint>72</uint>
         <key>dataFormat</key>
-        <string>cocos2d</string>
+        <string>json</string>
         <key>textureFileName</key>
         <filename>lava.png</filename>
         <key>flipPVR</key>
@@ -111,7 +111,7 @@
             <enum type="AndEngine::MagFilter">MagLinear</enum>
         </struct>
         <key>dataFileName</key>
-        <filename>lava.plist</filename>
+        <filename>lava.json</filename>
         <key>multiPack</key>
         <false/>
         <key>mainExtension</key>

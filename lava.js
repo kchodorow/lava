@@ -47,7 +47,7 @@ lava.start = function(){
     lava.kWidth = 1024;
     lava.kHeight = 768;
 
-    var director = new lime.Director(document.body, lava.kWidth, lava.kHeight);
+    var director = new lime.Director(document.getElementById('game'), lava.kWidth, lava.kHeight);
     var scene = new lime.Scene();
     this.spriteSheet = new lime.SpriteSheet('assets/lava.png',
 					    lime.ASSETS.lava.json,
