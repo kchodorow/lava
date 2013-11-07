@@ -2,7 +2,6 @@
 goog.provide('lava');
 goog.provide('lava.Stats');
 
-goog.require('lava.Audio');
 goog.require('lava.Board');
 goog.require('lava.Hud');
 
@@ -47,7 +46,6 @@ lava.start = function(){
 
     var director = new lime.Director(document.body, lava.kWidth, lava.kHeight);
     var scene = new lime.Scene();
-    lava.Audio.setup();
     this.spriteSheet = new lime.SpriteSheet('assets/lava.png',
 					    lime.ASSETS.lava.json,
 					    lime.parser.JSON);

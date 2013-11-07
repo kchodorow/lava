@@ -1,8 +1,6 @@
 goog.provide('lava.Villager');
 goog.provide('lava.Villagers');
 
-goog.require('lava.Audio');
-
 goog.require('lime.Sprite');
 goog.require('lime.animation.FadeTo');
 goog.require('lime.animation.KeyframeAnimation');
@@ -47,7 +45,6 @@ lava.Villager.prototype.kill = function() {
     if (parent != null) {
         parent.removeChild(this);
     }
-    lava.Audio.burnVillager();
 };
 
 lava.Villager.prototype.isAlive = function() {
@@ -183,8 +180,6 @@ lava.Villager.prototype.water = function(board) {
 };
 
 var coolLava = function(square, villager) {
-    lava.Audio.fizzle();
-
     var overlay = new lime.Sprite()
         .setFill(lava.spriteSheet.getFrame(lava.kLavaFill))
         .setPosition(lava.kLen/2, lava.kLen/2);

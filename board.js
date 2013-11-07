@@ -1,7 +1,6 @@
 goog.provide('lava.Board');
 goog.provide('lava.Square');
 
-goog.require('lava.Audio');
 goog.require('lava.Villager');
 
 goog.require('lime.Layer');
@@ -66,7 +65,6 @@ lava.Square.onTouch = function(e) {
     }
     lava.registerTurn();
     this.setType(lava.kLava);
-    lava.Audio.burnGrass();
     // Propegate
     lava.Board.onTouch.call(this.getParent(), this);
 };
