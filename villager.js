@@ -63,7 +63,7 @@ lava.Villager.prototype.move = function(board) {
     // 3 -> 0, -1
     // 6 -> 1
     var dir = random(9);
-    for (var i = 0; i < 9; i++) {
+    for (var i = 0; i < 9; i++, dir = (dir+1)%9) {
         var row = this.row + (Math.floor(dir/3) - 1);
         var col = this.col + (dir%3 - 1);
         if (row == this.row && col == this.col) {
@@ -75,7 +75,6 @@ lava.Villager.prototype.move = function(board) {
         if (square != null && 
             (square.getType() == lava.kLava || 
              square.getType() == lava.kRock)) {
-            dir = (dir + 1) % 9;   
             continue;
         }
 

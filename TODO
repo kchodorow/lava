@@ -1,14 +1,18 @@
 Programming:
-* Sometimes peasants stop moving/get stuck
+* Marks on squares that can be moved to
+* Tutorial entry on dragging the board
+* Hot spring
+* Add lava masks
+* Add disqus comments
+* Add ads
+* Make all labels non-text cursor
 
 Optional:
 * Create "fog" over unseen area
 * Experiment with larger pixels
 * Lava lamp
-* Add trees
 * Add huts
 * Make peasants point the right direction when moving
 * Don't let villagers move to squares with other villagers
 * Add marks on themometer
 * Put "bg" in front of villagers when they move off
-* Duration of "game over" fade-in doesn't seem right
