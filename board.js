@@ -129,6 +129,9 @@ lava.Board = function() {
     this.tutorial = new lava.Tutorial();
     this.appendChild(this.tutorial.grass);
     this.tutorial.grass.active_ = true;
+    this.mySize_ = new goog.math.Size(3, 3);
+    this.min_c_ = 0;
+    this.max_c_ = 2;
 
     // Setup scrolling
     goog.events.listen(
@@ -199,7 +202,15 @@ lava.Board.onTouch = function(square) {
         this.tutorial.temp.active_ = true;
     } else if (this.tutorial.temp.active_) {
         this.removeChild(this.tutorial.temp);
-        this.tutorial.temp.active_ = false;        
+        this.tutorial.temp.active_ = false;
+    } else if (!this.tutorial.drag.hasGone && 
+               (this.mySize_.x > 6 || this.mySize_y > 6)) {
+        this.appendChild(this.tutorial.drag);
+        this.tutorial.drag.active_ = true;
+        this.tutorial.drag.hasGone = true;
+    } else if (this.tutorial.drag.active_) {
+        this.removeChild(this.tutorial.drag);
+        this.tutorial.drag.active_ = false;        
     }
 
     var row = square.row;
@@ -211,6 +222,7 @@ lava.Board.onTouch = function(square) {
         var rStr = r+'';
         if (!(rStr in board)) {
             board[rStr] = {};
+            ++this.mySize_.y;
         }
         for (var c = col-1; c <= col+1; c++) {
             var cStr = c+'';
@@ -218,9 +230,16 @@ lava.Board.onTouch = function(square) {
                 var newSquare = new lava.Square(r, c);
                 board[rStr][cStr] = newSquare;
                 this.appendChild(newSquare);
+
+                if (c < this.min_c_) {
+                    this.min_c_ = c;
+                } else if (c > this.max_c_) {
+                    this.max_c_ = c;
+                }
             }
         }
     }
+    this.mySize_.x = this.max_c_ - this.min_c_;
 
     // Generate new villagers
     // random(14) at lava.Stats.turns == 0
@@ -262,24 +281,30 @@ lava.Board.prototype.hasEdge = function(square) {
 };
 
 lava.Tutorial = function() {
+    this.pos = new goog.math.Coordinate(80, -150);
+
     this.text = [
         "Click on the grass next\nto you to spread.",
         "Villagers will throw water on you\n(unless you burn them).",
         "Cooled off lava blocks you and villagers.",
-        "Once you've cooled off completely or\nrun out of possible moves, the game is over."
+        "Once you've cooled off completely or\nrun out of possible moves, the game is over.",
+        "Drag the board in any\ndirection to get more room."
     ];
 
     this.grass = label(this.text[0])
         .setFontColor(lava.kTan).setAnchorPoint(.5, 0)
-        .setPosition(80, -150);
+        .setPosition(this.pos);
     this.villagers = label(this.text[1])
         .setFontColor(lava.kTan).setAnchorPoint(.5, 0)
-        .setPosition(80, -150);
+        .setPosition(this.pos);
     this.villagers.hasGone = false;
     this.cooled = label(this.text[2])
         .setFontColor(lava.kTan).setAnchorPoint(.5, 0)
-        .setPosition(80, -150);
+        .setPosition(this.pos);
     this.temp = label(this.text[3])
         .setFontColor(lava.kTan).setAnchorPoint(.5, 0)
-        .setPosition(80, -150);
+        .setPosition(this.pos);
+    this.drag = label(this.text[4])
+        .setFontColor(lava.kTan).setAnchorPoint(.5, 0)
+        .setPosition(this.pos);
 };
