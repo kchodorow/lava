@@ -35,9 +35,12 @@ var center = function(item) {
 };
 
 var label = function(text) {
-    return new lime.Label().setText(text).setFontSize(40)
+    var lbl = new lime.Label().setText(text).setFontSize(40)
         .setFontColor(lava.kFontColor)
         .setFontFamily('VT323').setMultiline(true);
+    lbl.createDomElement();
+    goog.style.setStyle(lbl.domElement, {cursor: 'default'});
+    return lbl;
 };
 
 lava.start = function(){
