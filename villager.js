@@ -14,10 +14,6 @@ lava.Villager = function(row, col) {
 
     this.setFill(lava.spriteSheet.getFrame('villager0.png'));
     this.facing_ = lava.Villager.kRight;
-    if (random(2) == 0) {
-        // face left
-        this.changeDirection();
-    }
 
     this.row = row;
     this.col = col;
@@ -132,9 +128,13 @@ var stopWalk = function(action) {
 };
 
 lava.Villager.prototype.changeDirection = function() {
-    this.setScale(-1, 1);
-    this.facing_ = (this.facing_ == lava.Villager.kLeft) ?
-        lava.Villager.kRight : lava.Villager.kLeft;
+    if (this.facing_ == lava.Villager.kLeft) {
+        this.setScale(1, 1);
+        this.facing_ = lava.Villager.kRight;
+    } else {
+        this.setScale(-1, 1);
+        this.facing_ = lava.Villager.kLeft;
+    }
 };
 
 lava.Villager.prototype.water = function(board) {
@@ -229,12 +229,14 @@ lava.Villagers.prototype.add = function(row, col) {
                 villager.setPosition(
                     lava.kLen*c+lava.kLen/2, 
                     lava.kLen*r+lava.kLen/2);
-
+                if (c < col && villager.facing_ == lava.Villager.kLeft ||
+                    c > col && villager.facing_ == lava.Villager.kRight) {
+                    villager.changeDirection();
+                }
                 villager.runAction(
                     new lime.animation.MoveTo(
                         lava.kLen*col+lava.kLen/2,
                         lava.kLen*row+lava.kLen/2));
-                // TODO: facing
                 break outer;
             }
         }

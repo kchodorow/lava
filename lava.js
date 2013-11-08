@@ -56,9 +56,9 @@ lava.start = function(){
         .setFill(lava.kBlue)
         .setPosition(512, 384);
     scene.appendChild(bg);
-    var board = new lava.Board();
-    center(board);
-    scene.appendChild(board);
+    lava.board = new lava.Board();
+    center(lava.board);
+    scene.appendChild(lava.board);
     this.hud_ = new lava.Hud();
     this.turnsRemaining = lava.kMaxTurns;
     scene.appendChild(lava.hud_);

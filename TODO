@@ -3,7 +3,6 @@ Programming:
 * Tutorial entry on dragging the board
 * Hot spring
 * Add lava masks
-* Add disqus comments
 * Add ads
 
 Optional:
@@ -11,7 +10,6 @@ Optional:
 * Experiment with larger pixels
 * Lava lamp
 * Add huts
-* Make peasants point the right direction when moving
 * Don't let villagers move to squares with other villagers
 * Add marks on themometer
 * Put "bg" in front of villagers when they move off
